@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio-Agro Derivative Intelligence System | Malaysia Food Security</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #060d0a;
+            --panel-bg: rgba(10, 25, 18, 0.7);
+            --border-glow: rgba(0, 255, 136, 0.25);
+            --primary-glow: #00ff88;
+            --secondary-glow: #38bdf8;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-orange: #fb923c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Sci-Fi Animated Micro-Grid Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            animation: backgroundPan 30s linear infinite;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 30%, #030705 90%);
+            z-index: -1;
+        }
+
+        @keyframes backgroundPan {
+            from { background-position: 0 0; }
+            to { background-position: 40px 40px; }
+        }
+
+        /* Header Styling */
+        header {
+            background: linear-gradient(180deg, rgba(6, 20, 13, 0.95) 0%, rgba(6, 20, 13, 0) 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .logo-area p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 12px;
+        }
+
+        .badge {
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--primary-glow);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            text-transform: uppercase;
+        }
+
+        /* Main Grid Architecture */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 24px;
+            padding: 24px 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Glassmorphic Panels */
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            box-shadow: inset 0 0 15px rgba(0, 255, 136, 0.05);
+            pointer-events: none;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-glow);
+            border-left: 3px solid var(--primary-glow);
+            padding-left: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: -15px;
+        }
+
+        /* Mathematical Display Blocks */
+        .formula-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        .formula-title {
+            font-size: 0.75rem;
+            color: var(--secondary-glow);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        /* Parameter Slider Adjustments */
+        .control-group {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .slider-wrapper {
+            margin-bottom: 12px;
+        }
+
+        .slider-wrapper:last-child {
+            margin-bottom: 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .slider-label span.value {
+            color: var(--primary-glow);
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary-glow);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--primary-glow);
+            transition: transform 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Interactive Output HUD */
+        .interactive-hud {
+            border: 1px dashed rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.03);
+            border-radius: 8px;
+            padding: 18px;
+            min-height: 140px;
+            transition: all 0.3s;
+        }
+
+        .hud-active {
+            border-color: var(--primary-glow);
+            background: rgba(0, 255, 136, 0.04);
+        }
+
+        .hud-placeholder {
+            color: var(--text-muted);
+            text-align: center;
+            font-style: italic;
+            padding-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        .hud-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .hud-stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .hud-stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .hud-stat-val {
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: monospace;
+            color: var(--secondary-glow);
+            margin-top: 4px;
+        }
+
+        .hud-explanation {
+            grid-column: span 2;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 10px;
+            color: #cbd5e1;
+        }
+
+        /* Chart Canvas Container */
+        .chart-container {
+            position: relative;
+            flex-grow: 1;
+            width: 100%;
+            min-height: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-glow);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(0, 255, 136, 0.05);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <h1>BioDerivative Intelligence</h1>
+            <p>SFM: Food Security Analytical Ecosystem (Malaysia)</p>
+        </div>
+        <div class="badge-container">
+            <div class="badge">Model: MR297 Paddy Growth Cycle</div>
+            <div class="badge">Calculus Engine: f'(x) Active</div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        
+        <div class="panel">
+            <div>
+                <div class="panel-title">Bioscience Scenario Case Study</div>
+                <div class="panel-subtitle">Optimizing Rice Production Yields via Logistic Differential Curves</div>
+            </div>
+
+            <p style="font-size: 0.9rem; line-height: 1.5; color: #cbd5e1;">
+                In Malaysia, ensuring stable self-sufficiency levels (SSL) for local rice production is vital for national food security. 
+                Using localized phenotypic agronomic dataset profiles modeled from **MARDI (Malaysian Agricultural Research and Development Institute)** and the **MADA (Muda Agricultural Development Authority)** crop parameters for the prevalent **MR297 high-yielding cultivar**, rice biomass accumulation follows a sigmoidal **Logistic Growth Curve**.
+            </p>
+
+            <p style="font-size: 0.9rem; line-height: 1.5; color: #cbd5e1;">
+                By tracking the mathematical **First Derivative $f'(x)$**, precision agriculturalists isolate the exact point of maximum biological development. This is crucial for targeted nitrogenous fertilizer administration schedules right before deceleration dynamics commence.
+            </p>
+
+            <div class="formula-box">
+                <div class="formula-title">Biomass Accumulation Function: $f(x)$</div>
+                <div style="font-size: 1.05rem; padding: 5px 0;">
+                    $$f(x) = \frac{K}{1 + \left(\frac{K - B_0}{B_0}\right) e^{-r x}}$$
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">
+                    Where $K$ = Carrying Capacity (Max Biomass, $t/ha$), $B_0$ = Initial Sprout Biomass, $r$ = Growth Coefficient rate, and $x$ = Days After Sowing (DAS).
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula-title">Biomass Growth Acceleration Derivative: $f'(x)$</div>
+                <div style="font-size: 1.05rem; padding: 5px 0;">
+                    $$f'(x) = r \cdot f(x) \left(1 - \frac{f(x)}{K}\right)$$
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">
+                    Derived using the Calculus Chain Rule. Displays the instantaneous growth speed ($t/ha/day$). Max growth occurs exactly at $f(x) = K/2$.
+                </p>
+            </div>
+
+            <div class="control-group">
+                <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary-glow); margin-bottom: 12px; font-weight: bold;">
+                    Configure Eco-Physiological Constraints
+                </div>
+                
+                <div class="slider-wrapper">
+                    <div class="slider-label">
+                        <span>Max Carrying Capacity ($K$ - Target Yield)</span>
+                        <span class="value" id="valK">10.5 t/ha</span>
+                    </div>
+                    <input type="range" id="paramK" min="6.0" max="14.0" step="0.5" value="10.5">
+                </div>
+
+                <div class="slider-wrapper">
+                    <div class="slider-label">
+                        <span>Biological Growth Multiplier ($r$)</span>
+                        <span class="value" id="valR">0.085</span>
+                    </div>
+                    <input type="range" id="paramR" min="0.05" max="0.15" step="0.005" value="0.085">
+                </div>
+
+                <div class="slider-wrapper">
+                    <div class="slider-label">
+                        <span>Initial Germination Seeding ($B_0$)</span>
+                        <span class="value" id="valB0">0.15 t/ha</span>
+                    </div>
+                    <input type="range" id="paramB0" min="0.05" max="0.50" step="0.05" value="0.15">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div>
+                <div class="panel-title">
+                    <span>Live Bioprocess Analytics Telemetry Grid</span>
+                    <span style="font-size: 0.7rem; color: var(--accent-orange); border: 1px solid var(--accent-orange); padding: 2px 6px; border-radius: 3px;">Interactive Graph Click Enabled</span>
+                </div>
+                <div class="panel-subtitle">Visualizing Cumulative Yield vs Instantaneous Derivative Rates</div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="biotechChart"></canvas>
+            </div>
+
+            <div class="interactive-hud" id="hudDisplay">
+                <div class="hud-placeholder" id="hudPlaceholder">
+                    &lt; Click anywhere along the chart line paths to activate calculus telemetry probe &gt;
+                </div>
+                <div class="hud-grid" id="hudContent" style="display: none;">
+                    <div class="hud-stat">
+                        <div class="hud-stat-label">Temporal Metric (Timeline Position)</div>
+                        <div class="hud-stat-val" id="hudX">Day 45 After Sowing</div>
+                    </div>
+                    <div class="hud-stat" style="border-color: rgba(0, 255, 136, 0.3);">
+                        <div class="hud-stat-label">Cumulative Biomass $f(x)$</div>
+                        <div class="hud-stat-val" id="hudY" style="color: var(--primary-glow);">5.25 Tonnes / Hectare</div>
+                    </div>
+                    <div class="hud-stat" style="grid-column: span 2; border-left: 3px solid var(--accent-orange);">
+                        <div class="hud-stat-label">Instantaneous Rate of Change $f'(x)$ [Calculus Output]</div>
+                        <div class="hud-stat-val" id="hudSlope" style="color: var(--accent-orange); font-size: 1.4rem;">0.235 t/ha/day</div>
+                    </div>
+                    <div class="hud-explanation">
+                        <strong style="color: var(--primary-glow);">Food Security Interpretation:</strong> 
+                        <span id="hudLayman">At this stage of development, your crop size increases at an instantaneous rate...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Mathematical Modeling Blueprint designed for University Innovation & Showcase Submissions.</p>
+        <p style="opacity: 0.5; margin-top: 4px;">Data Context Adaptation: MARDI Agronomic Framework Registry Documentations (MR297 Elite Line Lifecycle Experiments).</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const paramK = document.getElementById('paramK');
+        const paramR = document.getElementById('paramR');
+        const paramB0 = document.getElementById('paramB0');
+        
+        const valK = document.getElementById('valK');
+        const valR = document.getElementById('valR');
+        const valB0 = document.getElementById('valB0');
+
+        const hudDisplay = document.getElementById('hudDisplay');
+        const hudPlaceholder = document.getElementById('hudPlaceholder');
+        const hudContent = document.getElementById('hudContent');
+        const hudX = document.getElementById('hudX');
+        const hudY = document.getElementById('hudY');
+        const hudSlope = document.getElementById('hudSlope');
+        const hudLayman = document.getElementById('hudLayman');
+
+        let myChart = null;
+        const totalDays = 120; // Complete life cycle of Malaysian MR297 rice
+
+        // Mathematical Function Logic
+        function calculateLogistic(x, K, r, B0) {
+            const exponentTerm = ((K - B0) / B0) * Math.exp(-r * x);
+            return K / (1 + exponentTerm);
+        }
+
+        function calculateDerivative(fx, K, r) {
+            return r * fx * (1 - (fx / K));
+        }
+
+        // Generate Dataset Array Arrays
+        function generateChartData() {
+            const K = parseFloat(paramK.value);
+            const r = parseFloat(paramR.value);
+            const B0 = parseFloat(paramB0.value);
+
+            const labels = [];
+            const biomassData = [];
+            const rateData = [];
+
+            for (let day = 0; day <= totalDays; day++) {
+                labels.push(day);
+                const fx = calculateLogistic(day, K, r, B0);
+                const dfx = calculateDerivative(fx, K, r);
+
+                biomassData.push(fx.toFixed(3));
+                rateData.push(dfx.toFixed(3));
+            }
+
+            return { labels, biomassData, rateData };
+        }
+
+        // Initialize / Update Chart canvas
+        function updateDashboardChart() {
+            const dataPackage = generateChartData();
+
+            if (myChart) {
+                myChart.data.labels = dataPackage.labels;
+                myChart.data.datasets[0].data = dataPackage.biomassData;
+                myChart.data.datasets[1].data = dataPackage.rateData;
+                myChart.update('none'); // Optimized updating to prevent performance hitches
+                return;
+            }
+
+            const ctx = document.getElementById('biotechChart').getContext('2d');
+            
+            // Design vibrant neon chart themes
+            const primaryGlowGrad = ctx.createLinearGradient(0, 0, 0, 400);
+            primaryGlowGrad.addColorStop(0, 'rgba(0, 255, 136, 0.2)');
+            primaryGlowGrad.addColorStop(1, 'rgba(0, 255, 136, 0)');
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dataPackage.labels,
+                    datasets: [
+                        {
+                            label: 'Cumulative Yield f(x) (t/ha)',
+                            data: dataPackage.biomassData,
+                            borderColor: '#00ff88',
+                            borderWidth: 3,
+                            backgroundColor: primaryGlowGrad,
+                            fill: true,
+                            yAxisID: 'yBiomass',
+                            tension: 0.2,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            pointHoverBackgroundColor: '#00ff88'
+                        },
+                        {
+                            label: "Growth Rate f'(x) (t/ha/day)",
+                            data: dataPackage.rateData,
+                            borderColor: '#fb923c',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            backgroundColor: 'transparent',
+                            yAxisID: 'yRate',
+                            tension: 0.2,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            pointHoverBackgroundColor: '#fb923c'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e2e8f0', font: { size: 11 } }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: 'rgba(5, 15, 10, 0.95)',
+                            titleColor: '#00ff88',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(0, 255, 136, 0.3)',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Days After Sowing (DAS)', color: '#94a3b8' }
+                        },
+                        yBiomass: {
+                            type: 'linear',
+                            position: 'left',
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#00ff88' },
+                            title: { display: true, text: 'Total Crop Weight (Tonnes / Hectare)', color: '#00ff88' }
+                        },
+                        yRate: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { color: '#fb923c' },
+                            title: { display: true, text: 'Daily Expansion Velocity (t/ha/day)', color: '#fb923c' }
+                        }
+                    },
+                    onClick: (e) => {
+                        handleChartClick(e);
+                    }
+                }
+            });
+        }
+
+        // Handle Interactive Intercept Calculus Engine Updates
+        function handleChartClick(event) {
+            const points = myChart.getElementsAtEventForMode(event, 'index', { intersect: false }, true);
+            
+            if (points.length > 0) {
+                const index = points[0].index;
+                const K = parseFloat(paramK.value);
+                const r = parseFloat(paramR.value);
+                const B0 = parseFloat(paramB0.value);
+
+                const currentDay = index;
+                const fx = calculateLogistic(currentDay, K, r, B0);
+                const dfx = calculateDerivative(fx, K, r);
+
+                // Reveal HUD panel
+                hudPlaceholder.style.display = 'none';
+                hudContent.style.display = 'grid';
+                hudDisplay.classList.add('hud-active');
+
+                // Bind Calculated Metrics
+                hudX.innerText = `Day ${currentDay} After Sowing`;
+                hudY.innerText = `${fx.toFixed(3)} Tonnes / Hectare`;
+                hudSlope.innerText = `${dfx.toFixed(4)} t/ha / day`;
+
+                // Calculate Inflection Turning Point (Peak Growth Step)
+                const inflectionDay = Math.log((K - B0) / B0) / r;
+                
+                // Construct Real-world Layman Insights
+                let explanationText = "";
+                if (currentDay < inflectionDay - 8) {
+                    explanationText = `The paddy crop is presently within its early vegetative lag stage. The derivative value is small because structural roots are developing below-ground. This is an excellent baseline timeframe to ensure standing water limits weed proliferation.`;
+                } else if (Math.abs(currentDay - inflectionDay) <= 8) {
+                    explanationText = `CRITICAL POINT: This is the peak mathematical inflection point of your crop field! The derivative $f'(x)$ is at its maximum absolute capacity ($${dfx.toFixed(3)}$ t/ha/day). The plant is consuming nutrients at unprecedented speeds. To avoid food insecurity issues, immediate top-dress nitrogen fertilizer must be introduced now.`;
+                } else {
+                    explanationText = `The curve enters the plateauing maturation phase. While total cumulative biomass is still high ($${fx.toFixed(2)}$ t/ha), the first derivative is approaching zero. Energy distribution has shifted completely from leaf elongation towards grain filling inside the panicles. Adding fertilizer now provides no metabolic return.`;
+                }
+
+                hudLayman.innerHTML = explanationText;
+            }
+        }
+
+        // Attach Runtime Event Listeners to Parameter Controls
+        function syncSliderValues() {
+            valK.innerText = `${paramK.value} t/ha`;
+            valR.innerText = `${paramR.value}`;
+            valB0.innerText = `${paramB0.value} t/ha`;
+        }
+
+        [paramK, paramR, paramB0].forEach(slider => {
+            slider.addEventListener('input', () => {
+                syncSliderValues();
+                updateDashboardChart();
+                
+                // Clear active telemetry readings safely to prevent invalid graph calculations
+                hudContent.style.display = 'none';
+                hudPlaceholder.style.display = 'block';
+                hudDisplay.classList.remove('hud-active');
+            });
+        });
+
+        // Initialize App Dashboard Execution
+        syncSliderValues();
+        updateDashboardChart();
+    </script>
+</body>
+</html>
